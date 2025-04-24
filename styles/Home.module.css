@@ -22,3 +22,17 @@
     flex-direction: row;
     align-items: center;
 }
+
+.custom-toast-success {
+    background-color: #4caf50; 
+    color: white; 
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.custom-toast-info {
+    background-color: #3b444b; 
+    color: white; 
+    font-weight: bold;
+    border-radius: 8px;
+}

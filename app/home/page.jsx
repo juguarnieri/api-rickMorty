@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CharacterCard from "../../components/CharacterCard";
 import Carregando from "../../components/Carregando";
+import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 
 export default function Home() {
     const [characters, setCharacters] = useState([]);
@@ -26,11 +27,11 @@ export default function Home() {
             while (cache.size >= 5) {
                 const firstKey = cache.keys().next().value;
                 cache.delete(firstKey);
-                console.log(`♻️ Removido do cache: ${firstKey}`);
+                console.log(` 💨 Removido do cache: ${firstKey}`);
             }
         };
 
-        console.log("\n============== BUSCA INICIADA ==============");
+        console.log("\n============== BUSCA INICIADA✨ ==============");
         console.log(`📊 Cache anterior: ${cache.size} páginas`);
 
         let total = totalPages;
@@ -87,7 +88,7 @@ export default function Home() {
         for (const [key, val] of cache.entries()) {
             console.log(`📦 ${key}: ${val.results.length} personagens`);
         }
-        console.log("============== FIM DA BUSCA ==============\n");
+        console.log("============== FIM DA BUSCA🔚 ==============\n");
     };
 
     useEffect(() => {
@@ -97,21 +98,54 @@ export default function Home() {
     const [search, setSearch] = useState("");
 
     const handleSearch = () => {
+        if (!search.trim()) { 
+            toast.error("Por favor, insira um termo de busca!", {
+                position: "top-left",
+                style: {
+                    backgroundColor: "#ff4d4d", 
+                    color: "white",
+                    fontWeight: "bold",
+                    borderRadius: "8px",
+                },
+                progressStyle: {
+                    backgroundColor: "#ffcccc", 
+                },
+            });
+            return; 
+        }
+    
         setPage(1);
         fetchCharacters(search, 1);
     };
 
-    const handleReset = () => {
-        setSearch("");
-        setPage(1);
-        fetchCharacters("", 1);
-        toast.success("Filtro foi resetado", { position: "top-left" });
-    };
 
-    const handleCardClick = (char) => {
-        toast.info(`Você clicou em ${char.name} que está ${char.status}`);
-    };
+const handleReset = () => {
+    setSearch("");
+    setPage(1);
+    fetchCharacters("", 1);
+    toast.success("Filtro foi resetado", {
+        position: "top-left",
+        icon: <FaCheckCircle style={{ color: "white" }} />, 
+        style: {
+            backgroundColor: "#df007f", 
+            color: "white", 
+            fontWeight: "bold",
+            borderRadius: "8px",
+        },
+    });
+};
 
+const handleCardClick = (char) => {
+    toast.info(`Você clicou em ${char.name} que está ${char.status}`, {
+        icon: <FaInfoCircle style={{ color: "white" }} />, 
+        style: {
+            backgroundColor: "#fe6a00", 
+            color: "white", 
+            fontWeight: "bold",
+            borderRadius: "8px",
+        },
+    });
+};
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -149,7 +183,7 @@ export default function Home() {
                 </button>
             </div>
 
-            {notFound && <h1 className={styles.notFound}>Nenhum personagem encontrado 😢</h1>}
+            {notFound && <h1 className={styles.notFound}>Nenhum personagem encontrado 😢😒</h1>}
 
             {loading ? (
                 <div className={`${styles.carregandoWrapper} ${loading ? "" : styles.hidden}`}>
